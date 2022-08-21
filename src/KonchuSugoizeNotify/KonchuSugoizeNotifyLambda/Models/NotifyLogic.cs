@@ -9,7 +9,8 @@ namespace KonchuSugoizeNotifyLambda.Models
     {
         private const string KonchuSugoize = "昆虫すごいぜ";
         private const string KonchuSugoiZ = "昆虫すごいＺ";
-        private const string tweetBodyFormat = "{0:title}\n{1:service}　{2:yyyy/M/d} {3:HH:mm}～{4:HH:mm}\n{5:subtitle}";
+        private const string TweetBodyFormat = "{0:title}\n{1:service}　{2:yyyy/M/d} {3:HH:mm}～{4:HH:mm}\n{5:subtitle}";
+        private const int Days = 7;
         private Config config;
 
         /// <summary>
@@ -45,15 +46,17 @@ namespace KonchuSugoizeNotifyLambda.Models
             this.Init();
 
             List<DateTime> dates = new List<DateTime>();
-            for (int offset = 0; offset < 5; offset++) dates.Add(DateTime.Today.AddDays(offset));
+            for (int offset = 0; offset < Days; offset++) dates.Add(DateTime.Today.AddDays(offset));
             List<NhkArea> nhkAreas = new List<NhkArea> { NhkArea.Tokyo };
             NhkProgramObject programList = NhkApiCaller.GetNhkPrograms(nhkServiceList, dates, nhkAreas, config.NhkApiConfig.ApiKey);
-            Debug.WriteLine("★★programList=" + JsonSerializer.Serialize(programList));
+            Debug.WriteLine("★programList=" + JsonSerializer.Serialize(programList));
+            Console.WriteLine("★programList=" + JsonSerializer.Serialize(programList));
 
             NhkProgramObject filteredProgramList = this.FilterByKonchuSugoize(programList);
 
             NhkProgramObject summarizedProgramList = this.SummarizeProgram(filteredProgramList);
             Debug.WriteLine("★summarizedProgramList=" + JsonSerializer.Serialize(summarizedProgramList));
+            Console.WriteLine("★summarizedProgramList=" + JsonSerializer.Serialize(summarizedProgramList));
 
             TwitterCaller twitterCaller = new TwitterCaller(this.config.TwitterConfig);
             twitterCaller.PostTweet(this.GenerateTweetBody(summarizedProgramList));
@@ -150,7 +153,7 @@ namespace KonchuSugoizeNotifyLambda.Models
             DateTime start = DateTime.Parse(nhkProgram.StartTime);
             DateTime end = DateTime.Parse(nhkProgram.EndTime);
             string tweetBody = String.Format(
-                tweetBodyFormat,
+                TweetBodyFormat,
                 nhkProgram.Title,
                 nhkProgram.Service.Name,
                 start,

@@ -11,11 +11,10 @@ public class NotifyFunction
     /// <param name="input"></param>
     /// <param name="context"></param>
     /// <returns></returns>
-    public string NotifyOfFreeTV(string input, ILambdaContext context)
+    public void NotifyOfFreeTV(object input, ILambdaContext context)
     {
         NotifyLogic logic = new NotifyLogic();
         logic.NotifyOfFreeTV();
-        return input.ToUpper();
     }
 
     /// <summary>
@@ -24,11 +23,10 @@ public class NotifyFunction
     /// <param name="input"></param>
     /// <param name="context"></param>
     /// <returns></returns>
-    public string NotifyOfPremiumTV(string input, ILambdaContext context)
+    public void NotifyOfPremiumTV(object input, ILambdaContext context)
     {
         NotifyLogic logic = new NotifyLogic();
         logic.NotifyOfPremiumTV();
-        return input.ToUpper();
     }
 
     /// <summary>
@@ -37,10 +35,9 @@ public class NotifyFunction
     /// <param name="input"></param>
     /// <param name="context"></param>
     /// <returns></returns>
-    public string NotifyOfRadio(string input, ILambdaContext context)
+    public void NotifyOfRadio(object input, ILambdaContext context)
     {
         NotifyLogic logic = new NotifyLogic();
         logic.NotifyOfRadio();
-        return input.ToUpper();
     }
 }
