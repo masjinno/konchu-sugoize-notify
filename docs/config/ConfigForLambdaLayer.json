@@ -1,0 +1,11 @@
+{
+  "NHK": {
+    "ApiKey": "string"
+  },
+  "Twitter": {
+    "ConsumerKey":  "string",
+    "ConsumerSecret":  "string",
+    "AccessToken":  "string",
+    "AccessSecret":  "string"
+  }
+}

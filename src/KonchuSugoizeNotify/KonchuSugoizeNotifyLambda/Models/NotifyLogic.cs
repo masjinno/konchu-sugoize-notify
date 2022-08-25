@@ -46,7 +46,10 @@ namespace KonchuSugoizeNotifyLambda.Models
             this.Init();
 
             List<DateTime> dates = new List<DateTime>();
-            for (int offset = 0; offset < Days; offset++) dates.Add(DateTime.Today.AddDays(offset));
+            // DateTime jstNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time"));
+            // for (int offset = 0; offset < Days; offset++) dates.Add(jstNow.AddDays(offset));
+            Console.WriteLine($"DateTime.Now={DateTime.Now}");
+            for (int offset = 0; offset < Days; offset++) dates.Add(DateTime.Now.AddDays(offset));
             List<NhkArea> nhkAreas = new List<NhkArea> { NhkArea.Tokyo };
             NhkProgramObject programList = NhkApiCaller.GetNhkPrograms(nhkServiceList, dates, nhkAreas, config.NhkApiConfig.ApiKey);
             Debug.WriteLine("★programList=" + JsonSerializer.Serialize(programList));

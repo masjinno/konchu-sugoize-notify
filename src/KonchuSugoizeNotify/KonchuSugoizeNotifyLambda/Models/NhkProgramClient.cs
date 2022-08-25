@@ -32,10 +32,9 @@ namespace KonchuSugoizeNotifyLambda.Models
         private static object? Get(NhkArea area, NhkService service, string genre, DateTime date, string apikey, int retryCount)
         {
             string path = String.Format(ProgramGenrePath, area.Id, service.Id, genre, date, apikey);
-            Debug.WriteLine("path=" + path);
+            Console.WriteLine("path=" + path);
             HttpResponseMessage resp = client.GetAsync(path).Result;
             string respBody = resp.Content.ReadAsStringAsync().Result;
-            Debug.WriteLine("status=" + resp.StatusCode);
             if (resp.StatusCode == HttpStatusCode.OK)
             {
                 return JsonSerializer.Deserialize<NhkProgramObject>(respBody);
@@ -57,6 +56,7 @@ namespace KonchuSugoizeNotifyLambda.Models
             }
             else
             {
+                Console.WriteLine("status=" + resp.StatusCode);
                 throw new ArgumentException();
             }
         }

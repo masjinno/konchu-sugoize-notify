@@ -18,7 +18,8 @@ namespace KonchuSugoizeNotifyLambda.Resources
 
         public static Config ReadConfig()
         {
-            const string filePath = @"/opt/config/";
+            const string filePath = @"/opt/config/ConfigForLambdaLayer.json";
+            Console.WriteLine($"File.Exists({filePath}) = {File.Exists(filePath)}");
             string configStr;
             using (StreamReader sr = new StreamReader(filePath, Encoding.UTF8))
             {
